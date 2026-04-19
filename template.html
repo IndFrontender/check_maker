@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>$title</title>
+    <style>
+        /* Шрифт Roboto с кириллицей. Если сеть недоступна,
+           сработает fallback на Liberation Sans / DejaVu Sans. */
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap&subset=cyrillic,cyrillic-ext,latin');
+
+        @page {
+            size: A4;
+            margin: 2cm;
+            @bottom-right {
+                content: "Стр. " counter(page) " из " counter(pages);
+                font-size: 9pt;
+                color: #888;
+                font-family: "Roboto", "Liberation Sans", "DejaVu Sans", Arial, sans-serif;
+            }
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html, body {
+            font-family: "Roboto", "Liberation Sans", "DejaVu Sans", Arial, sans-serif;
+            color: #222;
+            font-size: 11pt;
+            line-height: 1.45;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            font-weight: 700;
+            color: #1a56db;
+            border-bottom: 2px solid #1a56db;
+            padding-bottom: 0.3em;
+            margin: 0 0 0.6em 0;
+            text-align: center;
+        }
+
+        .meta {
+            color: #555;
+            font-size: 0.95em;
+            margin: 0 auto 1.8em auto;
+            text-align: center;
+        }
+
+        .meta b { color: #222; }
+
+        /* Аккуратная таблица с центрированием и границами */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1em auto;
+            table-layout: fixed;      /* фиксированная ширина колонок — нужно для переноса */
+            border: 1px solid #444;
+        }
+
+        th, td {
+            border: 1px solid #bbb;
+            padding: 8px 10px;
+            text-align: center;        /* выравнивание по центру */
+            vertical-align: middle;
+            /* Перенос длинных строк */
+            word-wrap: break-word;
+            overflow-wrap: anywhere;
+            white-space: normal;
+            hyphens: auto;
+        }
+
+        th {
+            background: #eef2ff;
+            font-weight: 700;
+            color: #1a3d8f;
+        }
+
+        tr:nth-child(even) td {
+            background: #fafafa;
+        }
+
+        .card {
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 1em 1.2em;
+            margin: 1.2em 0;
+            background: #fcfcfd;
+        }
+
+        .card .label {
+            color: #666;
+            font-size: 0.85em;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            margin-bottom: 0.2em;
+        }
+
+        .card .value {
+            font-size: 1.05em;
+            word-wrap: break-word;
+            overflow-wrap: anywhere;
+        }
+
+        .footer {
+            margin-top: 2.5em;
+            color: #888;
+            font-size: 0.85em;
+            text-align: center;
+            border-top: 1px solid #eee;
+            padding-top: 0.8em;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>$title</h1>
+
+    <div class="meta">
+        <b>ID:</b> $id &nbsp;•&nbsp; <b>Дата:</b> $date
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th style="width: 25%">Поле</th>
+                <th style="width: 75%">Значение</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>ФИО</td>
+                <td>$full_name</td>
+            </tr>
+            <tr>
+                <td>Должность</td>
+                <td>$position</td>
+            </tr>
+            <tr>
+                <td>E-mail</td>
+                <td>$email</td>
+            </tr>
+            <tr>
+                <td>Описание</td>
+                <td>$description</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="card">
+        <div class="label">Комментарий</div>
+        <div class="value">$comment</div>
+    </div>
+
+    <div class="footer">
+        Сформировано автоматически скриптом csv2pdf.py · WeasyPrint
+    </div>
+
+</body>
+</html>

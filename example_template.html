@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title | default("Документ") }}</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 2cm;
+            @bottom-right {
+                content: "Стр. " counter(page) " из " counter(pages);
+                font-size: 10pt;
+                color: #888;
+            }
+        }
+        body {
+            font-family: "DejaVu Sans", "Arial", sans-serif;
+            color: #222;
+            line-height: 1.5;
+        }
+        h1 {
+            color: #1a56db;
+            border-bottom: 2px solid #1a56db;
+            padding-bottom: 0.3em;
+        }
+        .meta {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 2em;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1.5em;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px 12px;
+            text-align: left;
+        }
+        th {
+            background: #f3f4f6;
+            font-weight: 600;
+        }
+        tr:nth-child(even) td { background: #fafafa; }
+        .total {
+            text-align: right;
+            font-size: 1.2em;
+            margin-top: 1.5em;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <h1>{{ title | default("Счёт") }}</h1>
+
+    <div class="meta">
+        Дата: {{ date }}<br>
+        Клиент: {{ client.name }}<br>
+        {% if client.email %}E-mail: {{ client.email }}{% endif %}
+    </div>
+
+    {% set ns = namespace(total=0) %}
+    <table>
+        <thead>
+            <tr>
+                <th>№</th>
+                <th>Наименование</th>
+                <th>Кол-во</th>
+                <th>Цена</th>
+                <th>Сумма</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+            {% set line = item.qty * item.price %}
+            {% set ns.total = ns.total + line %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ item.name }}</td>
+                <td>{{ item.qty }}</td>
+                <td>{{ "%.2f"|format(item.price) }} ₽</td>
+                <td>{{ "%.2f"|format(line) }} ₽</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="total">
+        Итого: {{ "%.2f"|format(ns.total) }} ₽
+    </div>
+
+    <p style="margin-top: 3em; color: #888; font-size: 0.85em;">
+        Сформировано автоматически с помощью html2pdf.py на базе WeasyPrint.
+    </p>
+</body>
+</html>
